@@ -6,6 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class Main {
 
     public static void main(String[] args) {
-        UserDetailsService xpto = new MyDatabaseUserDetailsService().userDetailsService();
+
     }
 }
