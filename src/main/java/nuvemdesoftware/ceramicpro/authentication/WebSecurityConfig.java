@@ -7,6 +7,11 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity // (1)
@@ -18,9 +23,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // (1)
         return super.authenticationManagerBean();
     }
 
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {  // (2)
         http
+                .cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**", "/rest/**", "/home").permitAll() // (3)
                 .anyRequest().authenticated() // (4)
@@ -32,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // (1)
                 .logout() // (6)
                 .permitAll()
                 .and()
-                .httpBasic(); // (7)
+                .exceptionHandling()
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()); // (7)
     }
 }
