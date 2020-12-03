@@ -5,21 +5,20 @@ import java.io.Serializable;
 public class JwtResponse implements Serializable {
 
     private static final long serialVersionUID = -8091879091924046844L;
-    private final String username;
-    private final String jwttoken;
+    private final JwtAuthenticationUser user;
+    private final String auth_message;
 
-    public JwtResponse(String jwttoken, String username) {
+    public JwtResponse(JwtAuthenticationUser user, String auth_message) {
 
-        this.jwttoken = jwttoken;
-        this.username = username;
+        this.user = user;
+        this.auth_message = auth_message;
     }
 
-    public String getToken() {
-
-        return this.jwttoken;
+    public String getAuth_message() {
+        return auth_message;
     }
 
-    public String getUsername() {
-        return username;
+    public JwtAuthenticationUser getUser() {
+        return user;
     }
 }
