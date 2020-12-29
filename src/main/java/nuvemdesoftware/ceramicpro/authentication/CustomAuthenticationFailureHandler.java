@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
-    
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -32,6 +32,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         data.put(
                 "exception",
                 exception.getMessage());
+        data.put("auth_message", "Error");
 
         response.getOutputStream()
                 .println(objectMapper.writeValueAsString(data));
