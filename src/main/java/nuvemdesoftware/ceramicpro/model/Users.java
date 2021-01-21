@@ -1,4 +1,4 @@
-package nuvemdesoftware.ceramicpro.user;
+package nuvemdesoftware.ceramicpro.model;
 
 import java.util.List;
 

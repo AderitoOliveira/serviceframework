@@ -8,13 +8,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan({ "nuvemdesoftware.ceramicpro" })
+@EnableJpaRepositories("nuvemdesoftware.ceramicpro.repository")
+@EntityScan("nuvemdesoftware.ceramicpro.model")
 public class CeramicproApplication implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
 
 	private Logger logger = (Logger) LoggerFactory.getLogger(GreetingController.class);

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import nuvemdesoftware.ceramicpro.user.Role;
-import nuvemdesoftware.ceramicpro.user.Users;
-import nuvemdesoftware.ceramicpro.user.UsersRepository;
+import nuvemdesoftware.ceramicpro.model.Role;
+import nuvemdesoftware.ceramicpro.model.Users;
+import nuvemdesoftware.ceramicpro.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
