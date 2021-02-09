@@ -1,18 +1,15 @@
 package nuvemdesoftware.ceramicpro.model;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.*;
 
 @Entity
-public class Users {
+@Table(name = "users")
+public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long userId;
@@ -28,6 +25,10 @@ public class Users {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     List<Role> roles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="user",fetch=FetchType.EAGER)
+    private Set<Authority> authorities;
 
     public long getUserId() {
         return userId;
@@ -91,6 +92,14 @@ public class Users {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

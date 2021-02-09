@@ -1,11 +1,12 @@
 package nuvemdesoftware.ceramicpro.repository;
 
 
+import java.util.List;
 import java.util.Optional;
 
-import nuvemdesoftware.ceramicpro.model.Users;
+import nuvemdesoftware.ceramicpro.model.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UsersRepository extends CrudRepository<Users, Integer> {
-    Optional<Users> findByUsername(String username);
+public interface UsersRepository extends CrudRepository<User, Integer> {
+    List<User> findByUsername(String username);
 }

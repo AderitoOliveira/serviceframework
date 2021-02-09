@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import nuvemdesoftware.ceramicpro.model.Role;
-import nuvemdesoftware.ceramicpro.model.Users;
+import nuvemdesoftware.ceramicpro.model.User;
 import nuvemdesoftware.ceramicpro.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,17 +31,17 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BCryptPasswordEncoder encoder = passwordEncoder();
 
-        Optional<Users> optionalUser = usersRepository.findByUsername(username);
+        List<User> optionalUser = usersRepository.findByUsername(username);
 
-        if(optionalUser.isPresent()) {
-            Users users = optionalUser.get();
+        if(optionalUser!=null) {
+            User users = optionalUser.get(0);
 
             List<String> roleList = new ArrayList<String>();
             for(Role role:users.getRoles()) {
                 roleList.add(role.getRoleName());
             }
 
-            return User.builder()
+            return org.springframework.security.core.userdetails.User.builder()
                     .username(users.getUsername())
                     //change here to store encoded password in db
                     .password( encoder.encode(users.getPassword()) )
