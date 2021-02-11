@@ -1,7 +1,11 @@
 package nuvemdesoftware.ceramicpro.authentication;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
+import nuvemdesoftware.ceramicpro.model.User;
+import nuvemdesoftware.ceramicpro.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +33,11 @@ public class JwtAuthenticationController {
     @Autowired
     private UserDetailsService jwtInMemoryUserDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @Autowired
+    private UsersRepository usersRepository;
+
+
+/*    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> generateAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
             throws Exception {
 
@@ -43,6 +51,17 @@ public class JwtAuthenticationController {
         String auth_message = "Success";
 
         return ResponseEntity.ok(new JwtResponse(user, auth_message));
+    }*/
+
+    @RequestMapping("/authenticate")
+    public User getUserDetailsAfterLogin(Principal user) {
+        List<User> users = usersRepository.findByUsername(user.getName());
+        if (users.size() > 0) {
+            return users.get(0);
+        }else {
+            return null;
+        }
+
     }
 
     private void authenticate(String username, String password) throws Exception {
