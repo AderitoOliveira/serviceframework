@@ -1,7 +1,6 @@
 package nuvemdesoftware.ceramicpro.application;
 
 import ch.qos.logback.classic.Logger;
-import nuvemdesoftware.ceramicpro.greeting.GreetingController;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,8 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EntityScan("nuvemdesoftware.ceramicpro.model")
 @EnableWebSecurity(debug = true)
 public class CeramicproApplication{
-
-	private Logger logger = (Logger) LoggerFactory.getLogger(GreetingController.class);
 
 	public static void main(String[] args) {
 		 SpringApplication.run(CeramicproApplication.class, args);

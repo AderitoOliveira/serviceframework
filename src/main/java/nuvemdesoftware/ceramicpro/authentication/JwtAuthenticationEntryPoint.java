@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import ch.qos.logback.classic.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nuvemdesoftware.ceramicpro.greeting.GreetingController;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 
     private static final long serialVersionUID = -7858869558953243875L;
-    private Logger logger = (Logger) LoggerFactory.getLogger(GreetingController.class);
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
