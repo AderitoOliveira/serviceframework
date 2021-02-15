@@ -1,7 +1,5 @@
 package nuvemdesoftware.ceramicpro.config;
 
-import nuvemdesoftware.ceramicpro.authentication.CustomAuthenticationFailureHandler;
-import nuvemdesoftware.ceramicpro.authentication.JwtAuthenticationEntryPoint;
 import nuvemdesoftware.ceramicpro.filter.JWTTokenGeneratorFilter;
 import nuvemdesoftware.ceramicpro.filter.JWTTokenValidatorFilter;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -30,11 +27,6 @@ public class CeramicProSecurityConfig extends WebSecurityConfigurerAdapter { // 
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Bean
-    public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean

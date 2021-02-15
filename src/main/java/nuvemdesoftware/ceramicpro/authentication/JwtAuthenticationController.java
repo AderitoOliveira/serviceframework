@@ -28,9 +28,6 @@ public class JwtAuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
     private UserDetailsService jwtInMemoryUserDetailsService;
 
     @Autowired
