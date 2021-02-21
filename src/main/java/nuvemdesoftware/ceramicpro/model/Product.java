@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long   seq_id;
 
     @Column(nullable = false)
@@ -32,16 +32,22 @@ public class Product {
     private String  image_path;
     @Column(nullable = true)
     private String  image_name;
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "Long default 0")
     private long    bar_code_number;
     @Column(nullable = true)
     private String  article_zpl_string;
     @Column(nullable = true)
     private String  box_zpl_string;
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "boolean default false")
     private boolean is_parent;
     @Column(nullable = true)
     private String  parent_customer_product_id;
+
+    public Product() {
+    }
+
+    public Product(Product product) {
+    }
 
     public String getCustomer_product_id() {
         return customer_product_id;

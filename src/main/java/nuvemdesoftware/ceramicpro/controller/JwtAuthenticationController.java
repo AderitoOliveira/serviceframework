@@ -1,4 +1,4 @@
-package nuvemdesoftware.ceramicpro.authentication;
+package nuvemdesoftware.ceramicpro.controller;
 
 import java.security.Principal;
 import java.util.List;
