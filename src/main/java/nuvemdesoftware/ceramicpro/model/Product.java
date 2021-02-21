@@ -20,19 +20,19 @@ public class Product {
     private String  client_name;
     @Column(nullable = true)
     private String  product_name_for_label;
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "INT default 0")
     private int     num_articles_in_box;
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "INT default 0")
     private int     family;
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "DECIMAL(7,2) default '0.0'")
     private double  price_euro_1;
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "DECIMAL(7,2) default '0.0'")
     private double  price_euro_2;
     @Column(nullable = true)
     private String  image_path;
     @Column(nullable = true)
     private String  image_name;
-    @Column(nullable = true, columnDefinition = "Long default 0")
+    @Column(nullable = true, columnDefinition = "BIGINT default 0")
     private long    bar_code_number;
     @Column(nullable = true)
     private String  article_zpl_string;
