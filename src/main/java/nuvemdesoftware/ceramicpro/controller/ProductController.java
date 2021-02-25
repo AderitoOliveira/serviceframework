@@ -33,7 +33,7 @@ public class ProductController {
         Page<Product> pageResult = productsRepository.findAll(pageRequest);
         List<Product> products = pageResult
                 .stream()
-                .map(Product::new)
+                //.map(Product::new)
                 .collect(toList());
 
         return new PageImpl<>(products, pageRequest, pageResult.getTotalElements());
