@@ -36,7 +36,8 @@ public class ProductController {
                 //.map(Product::new)
                 .collect(toList());
 
-        return new PageImpl<>(products, pageRequest, pageResult.getTotalElements());
+        //return new PageImpl<>(products, pageRequest, pageResult.getTotalElements());
+        return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
 
     }
 }
