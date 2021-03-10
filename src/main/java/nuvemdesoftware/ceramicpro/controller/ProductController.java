@@ -2,9 +2,9 @@ package nuvemdesoftware.ceramicpro.controller;
 
 import nuvemdesoftware.ceramicpro.model.Product;
 import nuvemdesoftware.ceramicpro.repository.ProductsRepository;
+import nuvemdesoftware.ceramicpro.utils.CustomPageImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +27,8 @@ public class ProductController {
     }
 
     @GetMapping(path="/getAllProducts")
-    public Page<Product> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
-                              @RequestParam(name = "size", defaultValue = "10") int size) {
+    public CustomPageImpl getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
+                                         @RequestParam(name = "size", defaultValue = "10") int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
         Page<Product> pageResult = productsRepository.findAll(pageRequest);
         List<Product> products = pageResult
