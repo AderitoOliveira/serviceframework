@@ -49,6 +49,14 @@ public class Product {
     public Product(Product product) {
     }
 
+    public long getSeq_id() {
+        return seq_id;
+    }
+
+    public void setSeq_id(long seq_id) {
+        this.seq_id = seq_id;
+    }
+
     public String getCustomer_product_id() {
         return customer_product_id;
     }
