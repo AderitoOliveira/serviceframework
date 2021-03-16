@@ -9,16 +9,18 @@ public class CustomPageImpl<T> extends PageImpl<T> {
     private PageImpl page;
     private String nextPage;
     private String previousPage;
+    private int currentPage;
 
     public CustomPageImpl(List<T> list, PageRequest pageRequest, long totalElements) {
         super(list, pageRequest, totalElements);
         this.page = new PageImpl(list, pageRequest, totalElements);
 
+        this.currentPage = pageRequest.getPageNumber() + 1;
         int nextPageNumber = pageRequest.getPageNumber() + 1;
-        this.nextPage = "/?page=" + nextPageNumber +  "&size=" + pageRequest.getPageSize();
-        if(pageRequest.getPageNumber() > 0) {
+        this.nextPage = "/?page=" + nextPageNumber + "&size=" + pageRequest.getPageSize();
+        if (pageRequest.getPageNumber() > 0) {
             int previousPageNumber = pageRequest.getPageNumber() - 1;
-            this.previousPage = "/?page=" + previousPageNumber +  "&size=" + pageRequest.getPageSize();
+            this.previousPage = "/?page=" + previousPageNumber + "&size=" + pageRequest.getPageSize();
         }
     }
 
@@ -44,5 +46,13 @@ public class CustomPageImpl<T> extends PageImpl<T> {
 
     public void setPreviousPage(String previousPage) {
         this.previousPage = previousPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 }
