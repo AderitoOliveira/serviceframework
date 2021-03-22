@@ -28,16 +28,31 @@ public class ProductController {
 
     @GetMapping(path="/getAllProducts")
     public CustomPageImpl getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
-                                         @RequestParam(name = "size", defaultValue = "10") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Product> pageResult = productsRepository.findAll(pageRequest);
-        List<Product> products = pageResult
-                .stream()
-                //.map(Product::new)
-                .collect(toList());
+                                         @RequestParam(name = "size", defaultValue = "10") int size,
+                                         @RequestParam(name = "search", defaultValue = "") String search) {
 
-        //return new PageImpl<>(products, pageRequest, pageResult.getTotalElements());
-        return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
+        if(search.equals("")) {
+            PageRequest pageRequest = PageRequest.of(page, size);
+            Page<Product> pageResult = productsRepository.findAll(pageRequest);
+            List<Product> products = pageResult
+                    .stream()
+                    //.map(Product::new)
+                    .collect(toList());
+
+            //return new PageImpl<>(products, pageRequest, pageResult.getTotalElements());
+            return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
+        } else {
+            PageRequest pageRequest = PageRequest.of(page, size);
+            //Page<Product> pageResult2 = productsRepository.findByCustomerProductId(search,pageRequest);
+            Page<Product> pageResult2 = productsRepository.findByCustProdIdProdNameInternalProdId(search, pageRequest);
+            List<Product> products = pageResult2
+                    .stream()
+                    //.map(Product::new)
+                    .collect(toList());
+
+            //return new PageImpl<>(products, pageRequest, pageResult.getTotalElements());
+            return new CustomPageImpl(products, pageRequest, pageResult2.getTotalElements());
+        }
 
     }
 }

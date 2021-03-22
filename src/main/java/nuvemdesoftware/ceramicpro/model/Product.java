@@ -10,12 +10,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long   seq_id;
 
-    @Column(nullable = false)
-    private String  customer_product_id;
-    @Column(nullable = false)
-    private String  product_name;
-    @Column(nullable = false)
-    private String  internal_product_id;
+    @Column(name = "customer_product_id", nullable = false)
+    private String  customerProductId;
+    @Column(name = "product_name", nullable = false)
+    private String  productName;
+    @Column(name = "internal_product_id", nullable = false)
+    private String  internalProductId;
     @Column(nullable = true)
     private String  client_name;
     @Column(nullable = true)
@@ -58,27 +58,25 @@ public class Product {
     }
 
     public String getCustomer_product_id() {
-        return customer_product_id;
+        return customerProductId;
     }
 
-    public void setCustomer_product_id(String customer_product_id) {
-        this.customer_product_id = customer_product_id;
-    }
+    public void setCustomer_product_id(String customer_product_id) { this.customerProductId = customer_product_id;}
 
     public String getProduct_name() {
-        return product_name;
+        return productName;
     }
 
     public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+        this.productName = product_name;
     }
 
     public String getInternal_product_id() {
-        return internal_product_id;
+        return internalProductId;
     }
 
     public void setInternal_product_id(String internal_product_id) {
-        this.internal_product_id = internal_product_id;
+        this.internalProductId = internal_product_id;
     }
 
     public String getClient_name() {
@@ -188,9 +186,9 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "customer_product_id='" + customer_product_id + '\'' +
-                ", product_name='" + product_name + '\'' +
-                ", internal_product_id='" + internal_product_id + '\'' +
+                "customer_product_id='" + customerProductId + '\'' +
+                ", product_name='" + productName + '\'' +
+                ", internal_product_id='" + internalProductId + '\'' +
                 ", client_name='" + client_name + '\'' +
                 ", product_name_for_label='" + product_name_for_label + '\'' +
                 ", num_articles_in_box=" + num_articles_in_box +
