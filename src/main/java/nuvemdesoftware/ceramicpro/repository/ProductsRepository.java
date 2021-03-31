@@ -12,6 +12,6 @@ public interface ProductsRepository extends PagingAndSortingRepository<Product, 
     Page<Product> findByCustomerProductId(String customerProductId, Pageable pageable);
     Page<Product> findByCustomerProductIdStartsWith(String customerProductId, Pageable pageable);
 
-    @Query("select prod from Product prod where customer_product_id like %:searchValue% or product_name like %:searchValue% or internal_product_id like %:searchValue% ")
+    @Query("select prod from Product prod where customer_product_id like CONCAT(:searchValue,'%') or product_name like CONCAT(:searchValue,'%') or internal_product_id like CONCAT(:searchValue,'%')")
     Page<Product> findByCustProdIdProdNameInternalProdId(String searchValue, Pageable pageable);
 }
