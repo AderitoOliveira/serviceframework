@@ -66,4 +66,15 @@ public class ProductController {
         }
 
     }
+
+    @GetMapping(path="/getProduct")
+    public Product getProduct(@RequestParam(name = "customerProductId", defaultValue = "0") String customerProductId) throws UnknownHostException {
+
+        String hostName = InetAddress.getLocalHost().getHostName();
+
+        Product product = productsRepository.findByCustomerProductId(customerProductId);
+        product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name());
+
+        return product;
+    }
 }

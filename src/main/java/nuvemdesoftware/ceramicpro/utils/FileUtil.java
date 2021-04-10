@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -25,27 +26,43 @@ public class FileUtil {
 
     private static final String PROFILE_DIR = "profile";
 
-    @Value("${user.files.base.path}")
-    private String userFilesBasePath;
+    @Value("${products.files.base.path}")
+    private String productsFilesBasePath;
+
+    @Value("${client.files.base.path}")
+    private String clientsFilesBasePath;
 
     @Value("${max.file.upload.size}")
     private Long maxFileUploadSize;
 
 
-    public void copyFile(MultipartFile file, User user) throws MissingFileException, FileTooLargeException, CopyFileException {
+    //public void copyFile(MultipartFile file, User user) throws MissingFileException, FileTooLargeException, CopyFileException {
+    public void copyFile(MultipartFile file) throws MissingFileException, FileTooLargeException, CopyFileException {
+
         validateFile(file, maxFileUploadSize);
-        saveFile(file, user);
+        //saveFile(file, user);
+        saveFile(file);
+
     }
 
 
-    private void saveFile(MultipartFile file, User user) throws CopyFileException {
+    //private void saveFile(MultipartFile file, User user) throws CopyFileException {
+    private void saveFile(MultipartFile file) throws CopyFileException {
         try (InputStream is = file.getInputStream()) {
+            User user = new User();
             String newFileName = getNewFileName(file, user);
-            Path rootLocation = Paths.get(getRootLocationForUserProfileImageUpload(user));
+            //Path rootLocation = Paths.get(getRootLocationForUserProfileImageUpload(user));
 
-            LOG.debug("Saving file to " + rootLocation);
+            //LOG.debug("Saving file to " + rootLocation);
 
-            Files.copy(is, rootLocation.resolve(newFileName));
+            //Path fileRelative = Paths.get(userFilesBasePath + "\\" + "ABCD.jpeg");
+            Path fileRelative = Paths.get(productsFilesBasePath + "\\");
+            //Files.createFile(fileRelative);
+
+            //Path newFilePath = Paths.get("C:\\Users\\anoliveira\\Desktop\\ceramicpro\\src\\main\\resources\\images\\XYZ.jpeg");
+            //Files.createFile(newFilePath);
+
+            Files.copy(is, fileRelative.resolve(file.getOriginalFilename()));
         } catch (IOException ie) {
             LOG.error("Problem uploading file!", ie);
             throw new CopyFileException("Failed to upload!");
@@ -112,7 +129,7 @@ public class FileUtil {
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append(userFilesBasePath);
+        builder.append(productsFilesBasePath);
         builder.append("/");
         builder.append(user.getUserId());
 
@@ -138,6 +155,6 @@ public class FileUtil {
 
         createDirectoryIfItDoesntExist(location);
 
-        return location;
+        return productsFilesBasePath;
     }
 }
