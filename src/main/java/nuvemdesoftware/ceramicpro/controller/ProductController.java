@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.InetAddress;
@@ -76,7 +77,8 @@ public class ProductController {
     }
 
     @PostMapping(path="/saveProduct" ,consumes = "application/json", produces = "application/json")
-    public void saveProduct(@RequestBody Product product){
+    public HttpStatus saveProduct(@RequestBody Product product){
         System.out.println("PRODUTO: " + product.toString());
+        return HttpStatus.CREATED;
     }
 }
