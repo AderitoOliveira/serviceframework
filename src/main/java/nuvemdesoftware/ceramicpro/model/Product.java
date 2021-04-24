@@ -167,7 +167,7 @@ public class Product {
         this.box_zpl_string = box_zpl_string;
     }
 
-    public boolean isIs_parent() {
+    public boolean getIs_parent() {
         return is_parent;
     }
 
