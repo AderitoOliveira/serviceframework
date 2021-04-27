@@ -1,6 +1,6 @@
 package nuvemdesoftware.ceramicpro.controller;
 
-import nuvemdesoftware.ceramicpro.exception.ProductException;
+
 import nuvemdesoftware.ceramicpro.model.Product;
 import nuvemdesoftware.ceramicpro.repository.ProductsRepository;
 import nuvemdesoftware.ceramicpro.utils.CustomPageImpl;
@@ -9,12 +9,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -27,7 +28,7 @@ import static java.util.stream.Collectors.toList;
 @CrossOrigin
 public class ProductController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
 
     @Value( "${server.port}" )
     private String serverPort;
@@ -82,8 +83,9 @@ public class ProductController {
         return product;
     }
 
+    @ExceptionHandler
     @PostMapping(path="/saveProduct")
-    public ResponseEntity saveProduct(@RequestBody Product product) throws ProductException {
+    public ResponseEntity saveProduct(@RequestBody Product product) throws ResponseStatusException {
 
         Product productToUpdate = null;
         try {
@@ -96,9 +98,10 @@ public class ProductController {
             productToUpdate.setProduct_name_for_label(product.getProduct_name_for_label());
             productToUpdate.setIs_parent(product.getIs_parent());
             this.productsRepository.save(productToUpdate);
-        } catch (Exception exception) {
-            LOG.error("Problem Saving product!", exception);
-            throw new ProductException("Problem saving product " + productToUpdate.getCustomer_product_id() + " - " + productToUpdate.getProduct_name());
+        } catch (DataIntegrityViolationException exception) {
+            LOG.error(exception.getMessage());
+            //throw new ProductServiceException("Problem saving product " + productToUpdate.getCustomer_product_id() + " - " + productToUpdate.getProduct_name());
+            throw new DataIntegrityViolationException(exception.getMessage());
         }
 
         return ResponseEntity.ok(HttpStatus.CREATED);
