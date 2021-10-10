@@ -2,6 +2,7 @@ package nuvemdesoftware.ceramicpro.model;
 
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name="client")
@@ -36,6 +37,10 @@ public class Client {
     private String  imagePath;
     @Column(name = "image_name", nullable = false)
     private String  imageName;
+    @Column(name="created_date", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdDate;
+    @Column(name="modified_date", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date modifiedDate;
 
     public long getSeq_id() {
         return seq_id;
@@ -147,5 +152,43 @@ public class Client {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "seq_id=" + seq_id +
+                ", clientId=" + clientId +
+                ", clientName='" + clientName + '\'' +
+                ", firstAddress='" + firstAddress + '\'' +
+                ", location='" + location + '\'' +
+                ", country='" + country + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", nif='" + nif + '\'' +
+                ", coin='" + coin + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", personToContact='" + personToContact + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", imageName='" + imageName + '\'' +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                '}';
     }
 }

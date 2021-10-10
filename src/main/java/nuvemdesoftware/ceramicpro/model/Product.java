@@ -1,6 +1,7 @@
 package nuvemdesoftware.ceramicpro.model;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name="products")
@@ -42,6 +43,10 @@ public class Product {
     private boolean is_parent;
     @Column(nullable = true)
     private String  parent_customer_product_id;
+    @Column(name="created_date", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date createdDate;
+    @Column(name="modified_date", nullable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date modifiedDate;
 
     public Product() {
     }
@@ -183,12 +188,57 @@ public class Product {
         this.parent_customer_product_id = parent_customer_product_id;
     }
 
+    public String getCustomerProductId() {
+        return customerProductId;
+    }
+
+    public void setCustomerProductId(String customerProductId) {
+        this.customerProductId = customerProductId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getInternalProductId() {
+        return internalProductId;
+    }
+
+    public void setInternalProductId(String internalProductId) {
+        this.internalProductId = internalProductId;
+    }
+
+    public boolean isIs_parent() {
+        return is_parent;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
-                "customer_product_id='" + customerProductId + '\'' +
-                ", product_name='" + productName + '\'' +
-                ", internal_product_id='" + internalProductId + '\'' +
+                "seq_id=" + seq_id +
+                ", customerProductId='" + customerProductId + '\'' +
+                ", productName='" + productName + '\'' +
+                ", internalProductId='" + internalProductId + '\'' +
                 ", client_name='" + client_name + '\'' +
                 ", product_name_for_label='" + product_name_for_label + '\'' +
                 ", num_articles_in_box=" + num_articles_in_box +
@@ -202,6 +252,8 @@ public class Product {
                 ", box_zpl_string='" + box_zpl_string + '\'' +
                 ", is_parent=" + is_parent +
                 ", parent_customer_product_id='" + parent_customer_product_id + '\'' +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
                 '}';
     }
 }
