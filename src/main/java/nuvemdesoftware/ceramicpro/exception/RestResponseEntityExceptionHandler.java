@@ -31,6 +31,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return errorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    @ExceptionHandler({ ProductServiceException.class })
+    @ResponseBody
+    public ResponseEntity handleAnyException(ProductServiceException e) {
+        return errorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     /**
      * Handle failures commonly thrown from code
      */

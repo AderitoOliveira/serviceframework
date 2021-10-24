@@ -1,6 +1,6 @@
 package nuvemdesoftware.ceramicpro.exception;
 
-public class ProductServiceException extends Exception {
+public class ProductServiceException extends RuntimeException {
 
     private static final long serialVersionUID = 1334342354534345L;
 

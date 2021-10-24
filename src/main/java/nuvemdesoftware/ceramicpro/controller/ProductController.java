@@ -1,6 +1,7 @@
 package nuvemdesoftware.ceramicpro.controller;
 
 
+import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
 import nuvemdesoftware.ceramicpro.repository.ProductsRepository;
 import nuvemdesoftware.ceramicpro.utils.CustomPageImpl;
@@ -83,9 +84,9 @@ public class ProductController {
         return product;
     }
 
-    @ExceptionHandler
+    //@ExceptionHandler
     @PostMapping(path="/saveProduct")
-    public ResponseEntity saveProduct(@RequestBody Product product) throws ResponseStatusException {
+    public ResponseEntity saveProduct(@RequestBody Product product) throws ProductServiceException {
 
         Product productToUpdate = null;
         try {
@@ -101,7 +102,7 @@ public class ProductController {
         } catch (DataIntegrityViolationException exception) {
             LOG.error(exception.getMessage());
             //throw new ProductServiceException("Problem saving product " + productToUpdate.getCustomer_product_id() + " - " + productToUpdate.getProduct_name());
-            throw new DataIntegrityViolationException(exception.getMessage());
+            throw new ProductServiceException(exception.getMessage());
         }
 
         return ResponseEntity.ok(HttpStatus.CREATED);
