@@ -16,10 +16,12 @@ public class Stock {
     private String  productName;
     @Column(name = "quantity_in_stock", nullable = false)
     private String  quantityInStock;
-    @Column(nullable = true)
-    private String  bar_code_number;
+    @Column(name = "bar_code_number", nullable = true)
+    private String  barCodeNumber;
     @Column(nullable = true)
     private String  quantity_unit;
+    @Column(name = "image", nullable = false)
+    private String  image;
 
     public long getSeq_id() {
         return seq_id;
@@ -55,11 +57,11 @@ public class Stock {
     }
 
     public String getBar_code_number() {
-        return bar_code_number;
+        return barCodeNumber;
     }
 
     public void setBar_code_number(String bar_code_number) {
-        this.bar_code_number = bar_code_number;
+        this.barCodeNumber = bar_code_number;
     }
 
     public String getQuantity_unit() {
@@ -70,6 +72,22 @@ public class Stock {
         this.quantity_unit = quantity_unit;
     }
 
+    public String getBarCodeNumber() {
+        return barCodeNumber;
+    }
+
+    public void setBarCodeNumber(String barCodeNumber) {
+        this.barCodeNumber = barCodeNumber;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Stock{" +
@@ -77,8 +95,9 @@ public class Stock {
                 ", productId='" + productId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", quantityInStock='" + quantityInStock + '\'' +
-                ", bar_code_number='" + bar_code_number + '\'' +
+                ", barCodeNumber='" + barCodeNumber + '\'' +
                 ", quantity_unit='" + quantity_unit + '\'' +
+                ", image='" + image + '\'' +
                 '}';
     }
 }

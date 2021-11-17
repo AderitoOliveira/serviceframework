@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -34,7 +35,7 @@ public class StockController {
         this.stockRepository=stockRepository;
     }
 
-    @GetMapping(path="/getAllProductsStock")
+    @GetMapping(path="/getAllStockProducts")
     public CustomPageImpl getAllProductsStock(@RequestParam(name = "page", defaultValue = "0") int page,
                                          @RequestParam(name = "size", defaultValue = "10") int size,
                                          @RequestParam(name = "search", defaultValue = "") String search) throws UnknownHostException {
@@ -64,5 +65,21 @@ public class StockController {
             return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
         }
 
+    }
+
+    @GetMapping(path="/getAllStockProductsForScanner")
+    public List<Stock> getAllStockProductsForScanner() {
+
+        List<Stock> stockProductsForScanner = stockRepository.findAll();
+
+        return stockProductsForScanner;
+    }
+
+    @GetMapping(path="/getStockProductForScanner")
+    public Stock getStockProductForScanner(@RequestParam(name = "barCodeNumber", defaultValue = "0") String barCodeNumber) {
+
+        Stock stockProductForScanner = stockRepository.findAllByBarCodeNumber(barCodeNumber);
+
+        return stockProductForScanner;
     }
 }
