@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 @CrossOrigin
 public class StockController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StockController.class);
 
     @Value( "${server.port}" )
     private String serverPort;
