@@ -5,7 +5,6 @@ import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
 import nuvemdesoftware.ceramicpro.repository.ProductsRepository;
 import nuvemdesoftware.ceramicpro.utils.CustomPageImpl;
-import nuvemdesoftware.ceramicpro.utils.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -34,11 +32,11 @@ public class ProductController {
     @Value( "${server.port}" )
     private String serverPort;
 
-    private final ProductsRepository productsRepository;
+    private final ProductsRepository _productsRepository;
 
     @Autowired
     public ProductController(ProductsRepository productsRepository){
-        this.productsRepository=productsRepository;
+        this._productsRepository =productsRepository;
     }
 
     @GetMapping(path="/getAllProducts")
@@ -51,7 +49,7 @@ public class ProductController {
 
         if(search.equals("")) {
             PageRequest pageRequest = PageRequest.of(page, size);
-            Page<Product> pageResult = productsRepository.findAll(pageRequest);
+            Page<Product> pageResult = _productsRepository.findAll(pageRequest);
 
             pageResult.forEach(product -> product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name()));
 
@@ -60,7 +58,7 @@ public class ProductController {
             return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
         } else {
             PageRequest pageRequest = PageRequest.of(page, size);
-            Page<Product> pageResult = productsRepository.findByCustProdIdProdNameInternalProdId(search, pageRequest);
+            Page<Product> pageResult = _productsRepository.findByCustProdIdProdNameInternalProdId(search, pageRequest);
 
             pageResult.forEach(product -> product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name()));
 
@@ -78,7 +76,7 @@ public class ProductController {
 
         String hostName = InetAddress.getLocalHost().getHostName();
 
-        Product product = productsRepository.findByCustomerProductId(customerProductId);
+        Product product = _productsRepository.findByCustomerProductId(customerProductId);
         product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name());
 
         return product;
@@ -90,7 +88,7 @@ public class ProductController {
 
         Product productToUpdate = null;
         try {
-            productToUpdate = this.productsRepository.findByCustomerProductId(product.getCustomer_product_id());
+            productToUpdate = this._productsRepository.findByCustomerProductId(product.getCustomer_product_id());
             productToUpdate.setInternal_product_id(product.getInternal_product_id());
             productToUpdate.setClient_name(product.getClient_name());
             productToUpdate.setProduct_name(product.getProduct_name());
@@ -98,7 +96,7 @@ public class ProductController {
             productToUpdate.setPrice_euro_2(product.getPrice_euro_2());
             productToUpdate.setProduct_name_for_label(product.getProduct_name_for_label());
             productToUpdate.setIs_parent(product.getIs_parent());
-            this.productsRepository.save(productToUpdate);
+            this._productsRepository.save(productToUpdate);
         } catch (DataIntegrityViolationException exception) {
             LOG.error(exception.getMessage());
             //throw new ProductServiceException("Problem saving product " + productToUpdate.getCustomer_product_id() + " - " + productToUpdate.getProduct_name());

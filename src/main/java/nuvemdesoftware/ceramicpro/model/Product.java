@@ -29,10 +29,10 @@ public class Product {
     private double  price_euro_1;
     @Column(nullable = true, columnDefinition = "DECIMAL(7,2) default '0.0'")
     private double  price_euro_2;
-    @Column(nullable = true)
-    private String  image_path;
-    @Column(nullable = true)
-    private String  image_name;
+    @Column(name = "image_path", nullable = true)
+    private String  imagePath;
+    @Column(name = "image_name", nullable = true)
+    private String  imageName;
     @Column(nullable = true, columnDefinition = "BIGINT default 0")
     private long    bar_code_number;
     @Column(nullable = true)
@@ -133,19 +133,19 @@ public class Product {
     }
 
     public String getImage_path() {
-        return image_path;
+        return imagePath;
     }
 
-    public void setImage_path(String image_path) {
-        this.image_path = image_path;
+    public void setImage_path(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getImage_name() {
-        return image_name;
+        return imageName;
     }
 
-    public void setImage_name(String image_name) {
-        this.image_name = image_name;
+    public void setImage_name(String imageName) {
+        this.imageName = imageName;
     }
 
     public long getBar_code_number() {
@@ -245,8 +245,8 @@ public class Product {
                 ", family=" + family +
                 ", price_euro_1=" + price_euro_1 +
                 ", price_euro_2=" + price_euro_2 +
-                ", image_path='" + image_path + '\'' +
-                ", image_name='" + image_name + '\'' +
+                ", image_path='" + imagePath + '\'' +
+                ", image_name='" + imageName + '\'' +
                 ", bar_code_number=" + bar_code_number +
                 ", article_zpl_string='" + article_zpl_string + '\'' +
                 ", box_zpl_string='" + box_zpl_string + '\'' +
