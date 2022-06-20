@@ -3,13 +3,12 @@ package nuvemdesoftware.ceramicpro.controller;
 
 import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
-import nuvemdesoftware.ceramicpro.repository.ProductsRepository;
+import nuvemdesoftware.ceramicpro.services.ProductService;
 import nuvemdesoftware.ceramicpro.utils.CustomPageImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -32,12 +31,18 @@ public class ProductController {
     @Value( "${server.port}" )
     private String serverPort;
 
-    private final ProductsRepository _productsRepository;
+    //private final ProductsRepository _productsRepository;
+    private final ProductService _productService;
 
     @Autowired
-    public ProductController(ProductsRepository productsRepository){
-        this._productsRepository =productsRepository;
+    public ProductController(ProductService productService) {
+        this._productService = productService;
     }
+
+    //@Autowired
+    //public ProductController(ProductsRepository productsRepository){
+    //    this._productsRepository =productsRepository;
+    //}
 
     @GetMapping(path="/getAllProducts")
     public CustomPageImpl getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page,
@@ -45,47 +50,38 @@ public class ProductController {
                                          @RequestParam(name = "search", defaultValue = "") String search) throws UnknownHostException {
 
 
-        String hostName = InetAddress.getLocalHost().getHostName();
+        CustomPageImpl productsByPage = _productService.getAllProducts(page, size, search);
 
-        if(search.equals("")) {
-            PageRequest pageRequest = PageRequest.of(page, size);
-            Page<Product> pageResult = _productsRepository.findAll(pageRequest);
-
-            pageResult.forEach(product -> product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name()));
-
-            List<Product> products = pageResult.stream().collect(toList());
-
-            return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
-        } else {
-            PageRequest pageRequest = PageRequest.of(page, size);
-            Page<Product> pageResult = _productsRepository.findByCustProdIdProdNameInternalProdId(search, pageRequest);
-
-            pageResult.forEach(product -> product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name()));
-
-            List<Product> products = pageResult
-                    .stream()
-                    .collect(toList());
-
-            return new CustomPageImpl(products, pageRequest, pageResult.getTotalElements());
-        }
+        return productsByPage;
 
     }
 
     @GetMapping(path="/getProduct")
     public Product getProduct(@RequestParam(name = "customerProductId", defaultValue = "0") String customerProductId) throws UnknownHostException {
 
-        String hostName = InetAddress.getLocalHost().getHostName();
-
-        Product product = _productsRepository.findByCustomerProductId(customerProductId);
-        product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name());
-
-        return product;
+        try {
+            Product product = _productService.getProduct(customerProductId);
+            return product;
+        } catch (UnknownHostException unknowHost) {
+            throw unknowHost;
+        }
     }
 
     //@ExceptionHandler
     @PostMapping(path="/saveProduct")
     public ResponseEntity saveProduct(@RequestBody Product product) throws ProductServiceException {
 
+        ResponseEntity responseEntity = null;
+
+        try {
+            responseEntity = _productService.saveProduct(product);
+
+            return ResponseEntity.ok(HttpStatus.CREATED);
+
+        } catch (ProductServiceException productServiceException) {
+            throw productServiceException;
+        }
+        /*
         Product productToUpdate = null;
         try {
             productToUpdate = this._productsRepository.findByCustomerProductId(product.getCustomer_product_id());
@@ -104,5 +100,7 @@ public class ProductController {
         }
 
         return ResponseEntity.ok(HttpStatus.CREATED);
+        */
+
     }
 }
