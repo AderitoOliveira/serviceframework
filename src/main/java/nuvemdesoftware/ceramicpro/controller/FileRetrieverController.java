@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RestController
 public class FileRetrieverController {
     @RequestMapping(value = "/images", method = RequestMethod.GET,
