@@ -68,7 +68,13 @@ public class CeramicProSecurityConfig extends WebSecurityConfigurerAdapter { // 
                 .antMatchers("/user").authenticated()
                 .antMatchers("/notices").permitAll()
                 .antMatchers("/contact").permitAll().and().httpBasic();*/
-                .antMatchers("/**", "/rest/**", "/home").permitAll().and().httpBasic();
+                .antMatchers("/images/*").permitAll()
+                .antMatchers("/**", "/rest/**", "/home", "/images/**")
+                .authenticated() // ENABLE THIS OPTION TO PREVENT CALLING REST API WITHOUT BEING AUTHENTICATED
+                //.antMatchers("/images/*").permitAll()
+                //.permitAll()
+                .and()
+                .httpBasic();
     }
     /*@Override
     protected void configure(HttpSecurity http) throws Exception {  // (2)
