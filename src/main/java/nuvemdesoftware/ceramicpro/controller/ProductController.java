@@ -1,6 +1,7 @@
 package nuvemdesoftware.ceramicpro.controller;
 
 
+import nuvemdesoftware.ceramicpro.exception.NotFoundException;
 import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
 import nuvemdesoftware.ceramicpro.services.ProductService;
@@ -9,17 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @ResponseBody
 @RestController
@@ -62,8 +57,8 @@ public class ProductController {
         try {
             Product product = _productService.getProduct(customerProductId);
             return product;
-        } catch (UnknownHostException unknowHost) {
-            throw unknowHost;
+        } catch (NotFoundException notFoundExc) {
+            throw notFoundExc;
         }
     }
 

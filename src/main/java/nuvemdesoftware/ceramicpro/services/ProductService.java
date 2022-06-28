@@ -1,5 +1,6 @@
 package nuvemdesoftware.ceramicpro.services;
 
+import nuvemdesoftware.ceramicpro.exception.NotFoundException;
 import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
 import nuvemdesoftware.ceramicpro.repository.ProductsRepository;
@@ -71,9 +72,14 @@ public class ProductService {
         String hostName = InetAddress.getLocalHost().getHostName();
 
         Product product = _productsRepository.findByCustomerProductId(customerProductId);
-        product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name());
+        if(product != null) {
+            product.setImage_path("http://" + hostName + ":" + serverPort + "/" + "images/?imageName=" + product.getImage_name());
+            return product;
+        } else {
+            LOG.error("The CustomerProductId " + customerProductId + " doesn't exist");
+            throw new NotFoundException("The CustomerProductId " + customerProductId + " doesn't exist");
+        }
 
-        return product;
     }
 
     public ResponseEntity saveProduct(@RequestBody Product product) throws ProductServiceException {
