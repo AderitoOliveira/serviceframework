@@ -38,5 +38,5 @@ CREATE TABLE  products  (
    product_name_for_label  varchar(255) DEFAULT NULL,
    created_date  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
    modified_date  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY ( seq_id )
+  PRIMARY KEY ( customer_product_id )
 );

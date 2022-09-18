@@ -4,13 +4,15 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name="products")
+@Table(name="products", indexes = {@Index(columnList = "seq_id", name = "products_seq_id_idx")})
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "seq_id", columnDefinition = "BIGINT(20) NOT NULL UNIQUE KEY auto_increment")
     private long   seq_id;
 
+    @Id
     @Column(name = "customer_product_id", nullable = false)
     private String  customerProductId;
     @Column(name = "product_name", nullable = false)
