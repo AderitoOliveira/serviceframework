@@ -1,5 +1,6 @@
 package nuvemdesoftware.ceramicpro.services;
 
+import nuvemdesoftware.ceramicpro.exception.AlreadyExistsException;
 import nuvemdesoftware.ceramicpro.exception.NotFoundException;
 import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
@@ -67,9 +68,15 @@ public class ProductService {
 
     }
 
-    public Product getProduct(String customerProductId) throws UnknownHostException {
+    public Product getProduct(String customerProductId) throws NotFoundException {
 
-        String hostName = InetAddress.getLocalHost().getHostName();
+        String hostName = null;
+        try {
+             hostName = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException exc) {
+            throw new NotFoundException("Couldn't retrieve the hostName to resolve!");
+        }
+
 
         Product product = _productsRepository.findByCustomerProductId(customerProductId);
         if(product != null) {
@@ -82,11 +89,15 @@ public class ProductService {
 
     }
 
-    public ResponseEntity saveProduct(@RequestBody Product product) throws ProductServiceException {
+    public ResponseEntity saveProduct(@RequestBody Product product) throws AlreadyExistsException {
 
         Product productToUpdate = null;
         try {
             productToUpdate = this._productsRepository.findByCustomerProductId(product.getCustomer_product_id());
+
+            if(productToUpdate != null) {
+                throw new  AlreadyExistsException("O produto " + product.getCustomer_product_id()  + " já existe!!!");
+            }
             productToUpdate.setInternal_product_id(product.getInternal_product_id());
             productToUpdate.setClient_name(product.getClient_name());
             productToUpdate.setProduct_name(product.getProduct_name());
@@ -98,7 +109,7 @@ public class ProductService {
         } catch (DataIntegrityViolationException exception) {
             LOG.error(exception.getMessage());
             //throw new ProductServiceException("Problem saving product " + productToUpdate.getCustomer_product_id() + " - " + productToUpdate.getProduct_name());
-            throw new ProductServiceException(exception.getMessage());
+            throw new AlreadyExistsException(exception.getMessage());
         }
 
         return ResponseEntity.ok(HttpStatus.CREATED);

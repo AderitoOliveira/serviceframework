@@ -1,6 +1,7 @@
 package nuvemdesoftware.ceramicpro.controller;
 
 
+import nuvemdesoftware.ceramicpro.exception.AlreadyExistsException;
 import nuvemdesoftware.ceramicpro.exception.NotFoundException;
 import nuvemdesoftware.ceramicpro.exception.ProductServiceException;
 import nuvemdesoftware.ceramicpro.model.Product;
@@ -71,10 +72,10 @@ public class ProductController {
         try {
             responseEntity = _productService.saveProduct(product);
 
-            return ResponseEntity.ok(HttpStatus.CREATED);
+            return ResponseEntity.ok(responseEntity.getBody());
 
-        } catch (ProductServiceException productServiceException) {
-            throw productServiceException;
+        } catch (AlreadyExistsException alreadyExistsException) {
+            throw alreadyExistsException;
         }
         /*
         Product productToUpdate = null;
